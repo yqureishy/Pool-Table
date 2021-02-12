@@ -1,32 +1,13 @@
-import datetime 
-time = datetime.datetime.now()
+from datetime import datetime 
+from class_file import PoolTable
+import json
+time_now = datetime.now().strftime("%H:%M:%S")
+date_now = datetime.now().strftime("%m/%d/%Y")
 
-class PoolTable: 
-    def __init__(self, table_number): 
-        self.table_number = table_number
-        self.is_occupied = False 
-        self.start_time = None
-        self.end_time = None 
 
-    def checkout(self): 
-        self.is_occupied = True 
-        self.start_time = datetime.datetime.now()
-    def checkin(self): 
-        self.is_occupied = False 
-        self.end_time = datetime.datetime.now()
-
-    def get_time_played(self):
-        if self.start_time == None:
-            return (time - time)
-        elif self.end_time == None:
-            return (time - self.start_time)
-        else:
-            return(self.end_time - self.start_time)
-
-time = datetime.datetime.now()
-# Creates 12 objects of class Pool_Table 
-# and enters them into pool_tables array
 pool_tables = []
+j_son = []
+
 for index in range(1,13):
     pool_table = PoolTable(index)
     pool_tables.append(pool_table)
@@ -41,6 +22,7 @@ def menu():
     1. Display Tables
     2. Check out Table
     3. Check in Table
+    4. Quit
     ''')
 
 while True:
@@ -60,5 +42,12 @@ while True:
         selection = int(input("Select the table number you want to checkin: "))
         pool_table = pool_tables[selection - 1]
         pool_table.checkin()
+        with open(f"{datetime.now().strftime('%m-%d-%Y')}.json", "w") as file:
+            p_table = {"table number": pool_table.table_number, "check out time": pool_table.start_time.strftime('%H:%M:%S'), "check in time": pool_table.end_time.strftime('%H:%M:%S')}
+            j_son.append(p_table)
+            json.dump(j_son, file)
+    elif choice == "4":
+        break
+    else:
+        print("Please select from one of the options below.")
 
-        # Need to fix time
