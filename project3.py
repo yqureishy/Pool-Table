@@ -60,3 +60,5 @@ while True:
         selection = int(input("Select the table number you want to checkin: "))
         pool_table = pool_tables[selection - 1]
         pool_table.checkin()
+
+        # Need to fix time
